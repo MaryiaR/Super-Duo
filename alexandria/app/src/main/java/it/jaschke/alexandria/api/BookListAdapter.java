@@ -10,25 +10,25 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import it.jaschke.alexandria.R;
 import it.jaschke.alexandria.data.AlexandriaContract;
-import it.jaschke.alexandria.services.DownloadImage;
 
 /**
  * Created by saj on 11/01/15.
  */
 public class BookListAdapter extends CursorAdapter {
 
-
     public static class ViewHolder {
-        public final ImageView bookCover;
-        public final TextView bookTitle;
-        public final TextView bookSubTitle;
+        public final ImageView ivBookCover;
+        public final TextView tvBookTitle;
+        public final TextView tvBookSubTitle;
 
         public ViewHolder(View view) {
-            bookCover = (ImageView) view.findViewById(R.id.fullBookCover);
-            bookTitle = (TextView) view.findViewById(R.id.listBookTitle);
-            bookSubTitle = (TextView) view.findViewById(R.id.listBookSubTitle);
+            ivBookCover = (ImageView) view.findViewById(R.id.iv_book_cover);
+            tvBookTitle = (TextView) view.findViewById(R.id.tv_list_book_title);
+            tvBookSubTitle = (TextView) view.findViewById(R.id.tv_list_book_subtitle);
         }
     }
 
@@ -42,13 +42,13 @@ public class BookListAdapter extends CursorAdapter {
         ViewHolder viewHolder = (ViewHolder) view.getTag();
 
         String imgUrl = cursor.getString(cursor.getColumnIndex(AlexandriaContract.BookEntry.IMAGE_URL));
-        new DownloadImage(viewHolder.bookCover).execute(imgUrl);
+        Glide.with(context).load(imgUrl).into(viewHolder.ivBookCover);
 
         String bookTitle = cursor.getString(cursor.getColumnIndex(AlexandriaContract.BookEntry.TITLE));
-        viewHolder.bookTitle.setText(bookTitle);
+        viewHolder.tvBookTitle.setText(bookTitle);
 
         String bookSubTitle = cursor.getString(cursor.getColumnIndex(AlexandriaContract.BookEntry.SUBTITLE));
-        viewHolder.bookSubTitle.setText(bookSubTitle);
+        viewHolder.tvBookSubTitle.setText(bookSubTitle);
     }
 
     @Override
