@@ -4,3 +4,15 @@
 /.idea/libraries
 .DS_Store
 /build
+/captures
+
+gen
+bin
+target
+
+/.idea
+.metadata
+*.class
+*.iml
+
+gen-external-apklibs
