@@ -199,14 +199,19 @@ public class AddBookFragment extends Fragment implements LoaderManager.LoaderCal
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (result != null && result.getContents() != null) {
             String[] parts = result.getContents().split("id=");
-            if (parts.length > 1) {
+            if (parts.length > 1) {//Book's qrcode scanned at books.google.com returns value like https://books.google.com/books?id=N_0VhzQKIIAC, and all the details are fetched by id in BookService
                 String id = parts[1];
                 Intent bookIntent = new Intent(getActivity(), BookService.class);
                 bookIntent.putExtra(BookService.ID, id);
                 bookIntent.setAction(BookService.FETCH_BOOK);
                 getActivity().startService(bookIntent);
+            } else if (parts.length > 0) {
+                String ean = parts[0];
+                Intent bookIntent = new Intent(getActivity(), BookService.class);
+                bookIntent.putExtra(BookService.EAN, ean);
+                bookIntent.setAction(BookService.FETCH_BOOK);
+                getActivity().startService(bookIntent);
             }
         }
     }
-
 }

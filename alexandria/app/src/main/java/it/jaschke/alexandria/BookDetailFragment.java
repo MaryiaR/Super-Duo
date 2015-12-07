@@ -122,7 +122,8 @@ public class BookDetailFragment extends Fragment implements LoaderManager.Loader
         }
 
         String authors = data.getString(data.getColumnIndex(AlexandriaContract.AuthorEntry.AUTHOR));
-        ((TextView) rootView.findViewById(R.id.tv_authors)).setText(authors.replace(",", "\n"));
+        if (!TextUtils.isEmpty(authors))
+            ((TextView) rootView.findViewById(R.id.tv_authors)).setText(authors.replace(",", "\n"));
 
         String imgUrl = data.getString(data.getColumnIndex(AlexandriaContract.BookEntry.IMAGE_URL));
         if (Patterns.WEB_URL.matcher(imgUrl).matches()) {
@@ -131,11 +132,13 @@ public class BookDetailFragment extends Fragment implements LoaderManager.Loader
         }
 
         String categories = data.getString(data.getColumnIndex(AlexandriaContract.CategoryEntry.CATEGORY));
-        String[] genres = categories.split(",");
-        String genresText = "";
-        for (String genre : genres)
-            genresText += genre.trim() + "\n";
-        ((TextView) rootView.findViewById(R.id.categories)).setText(genresText);
+        if (!TextUtils.isEmpty(categories)) {
+            String[] genres = categories.split(",");
+            String genresText = "";
+            for (String genre : genres)
+                genresText += genre.trim() + "\n";
+            ((TextView) rootView.findViewById(R.id.categories)).setText(genresText);
+        }
     }
 
     @Override
